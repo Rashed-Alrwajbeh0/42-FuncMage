@@ -20,9 +20,9 @@ def power_validator(min_power: int
                     ) -> Callable[..., Any]:
     def validate(func: Callable[..., Any]) -> Any:
         @wraps(func)
-        def validate2(*variables: Any, **dictionary: Any) -> Any:
-            if variables[0] >= min_power:
-                return func(*variables)
+        def validate2(power: int, *variables: Any, **dictionary: Any) -> Any:
+            if power >= min_power:
+                return func(power, *variables)
             else:
                 return "Insufficient power for this spell"
         return validate2
@@ -63,9 +63,11 @@ class MageGuild:
     def validate_mage_name(name: str) -> bool:
         return len(name) >= 3 and all(i.isalpha() or i.isspace() for i in name)
 
-    @power_validator(10)
     def cast_spell(self, spell_name: str, power: int) -> str:
-        return f"Successfully cast {spell_name} with {power} power"
+        @power_validator(10)
+        def Hi(power: int, spell_name: str) -> str:
+            return f"Successfully cast {spell_name} with {power} power"
+        return str(Hi(power, spell_name))
 
 
 print("Testing spell timer...")
@@ -95,3 +97,4 @@ print(MageGuild.validate_mage_name("Rashed "))
 print(MageGuild.validate_mage_name("Rashed 1"))
 test = MageGuild()
 print(test.cast_spell("Lightning", 15))
+print(test.cast_spell("Lightning", 9))
