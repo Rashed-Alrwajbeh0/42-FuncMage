@@ -46,7 +46,7 @@ def spell_dispatcher() -> Callable[..., str]:
 
     @dispatch_spell.register(str)
     def _(spell: str) -> str:
-        return f"Enchantment: {spell.upper()}"
+        return f"Enchantment: {spell}"
 
     @dispatch_spell.register(list)
     def _(spell: list[Any]) -> str:
@@ -77,3 +77,14 @@ try:
     print(s({"Name": "Rashed"}))
 except ValueError as e:
     print(e)
+print("\nTesting partial enchanter...")
+
+
+def test(n: int, s1: str, s2: str) -> str:
+    return f"n: {n}, s1: {s1}, s2: {s2}"
+
+
+ss: dict[str, Callable[[str], str]] = partial_enchanter(test)
+print(ss["Fire"]("Rashed"))
+print(ss["Ice"]("Rashed"))
+print(ss["Dark"]("Rashed"))

@@ -56,3 +56,16 @@ print(f"Combined spell result: {res[0]}, {res[1]}")
 print("\nTesting power amplifier...")
 malt = power_amplifier(fireball, 3)
 print(f"Original: {fireball("Dragon", 10)}, Amplified: {malt("Dragon", 10)}")
+print("\nTesting conditional caster...")
+
+
+def test(target: str, power: int) -> bool:
+    return bool(target and power > 0)
+
+
+cond = conditional_caster(test, heal)
+print(cond("Rashed", 10))
+print(cond("Rashed", -10))
+print("\nTesting spell sequence...")
+s = spell_sequence([heal, fireball, heal])
+print(s("Rashed", 50))
